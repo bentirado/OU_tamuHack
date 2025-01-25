@@ -4,11 +4,12 @@
   "description": "Project created for tamuHack.",
   "main": "main.js",
   "scripts": {
-    "start": "NODE_ENV=development electron ."
+        "start": "cross-env NODE_ENV=development electron ."
   },
   "author": "Ben Tirado, Parker Hix, Javid Pena",
   "license": "ISC",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "electron": "^34.0.1",
     "electron-reloader": "^1.2.3"
   }
