@@ -4,26 +4,38 @@
 const { app, BrowserWindow } = require('electron')
 const path = require('node:path')
 
+// Hot-reloading
+if (process.env.NODE_ENV === 'development') {
+  // Initialize electron-reloader for fast reloading
+  require('electron-reloader')(module, {
+    // Optional settings (default is fine for most use cases)
+    ignore: /node_modules|[\/\\]\./, // Ignore files in node_modules or dotfiles
+    // You can also add custom reload file extensions if necessary, like .css or .html
+  });
+}
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js'),
+      // Allow node integration if necessary, but ensure it's safe
+      nodeIntegration: true, // This should be set carefully, only when needed
+      contextIsolation: false // Disable context isolation if needed
     }
   })
 
-  // and load the index.html of the app.
+  // Load the index.html of the app.
   mainWindow.loadFile('index.html')
 
-  // Open the DevTools.
+  // Open the DevTools if you want to debug during development
   // mainWindow.webContents.openDevTools()
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow()
 
@@ -41,5 +53,3 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
