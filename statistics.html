@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zenith - Flight Safety Statistics</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="w-full min-h-screen bg-blue-50">
+  <nav class="w-full bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25" />
+            <path d="M16 16H7" />
+          </svg>
+          <span class="ml-2 text-2xl font-semibold text-gray-900">Zenith</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="about.html" class="text-gray-600 hover:text-blue-500">About</a>
+          <a href="statistics.html" class="text-blue-500">Statistics</a>
+          <a href="#" class="text-gray-600 hover:text-blue-500">Meditation</a>
+          <a href="#" class="text-gray-600 hover:text-blue-500">Safety</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="bg-gradient-to-b from-blue-50 to-white py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Understanding Flight Safety</h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Facts and figures that demonstrate why air travel is one of the safest forms of transportation.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <!-- Transport Safety Comparison -->
+    <div class="bg-white rounded-xl p-8 shadow-sm mb-8">
+      <h2 class="text-2xl font-semibold mb-6">Transport Safety Comparison</h2>
+      <p class="text-gray-600 mb-6">Risk of incidents per billion passenger miles</p>
+      <div class="h-80">
+        <!-- Bar Chart Placeholder -->
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Statistics Overview (Restored) -->
+    <div class="grid md:grid-cols-3 gap-8 mb-12">
+      <div class="bg-white rounded-xl p-6 shadow-sm text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M16 4v4h4M4 12v4h4m0-2h8v-2H8z" />
+        </svg>
+        <div class="text-3xl font-bold text-gray-900 mb-2">99.999%</div>
+        <div class="text-gray-600">Commercial Aviation Safety Rate</div>
+      </div>
+      <div class="bg-white rounded-xl p-6 shadow-sm text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 4v16M4 12h16" />
+        </svg>
+        <div class="text-3xl font-bold text-gray-900 mb-2">96,000+</div>
+        <div class="text-gray-600">Flights Operating Daily Worldwide</div>
+      </div>
+      <div class="bg-white rounded-xl p-6 shadow-sm text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 4v16M4 12h16" />
+        </svg>
+        <div class="text-3xl font-bold text-gray-900 mb-2">4.5B+</div>
+        <div class="text-gray-600">Passengers Fly Safely Each Year</div>
+      </div>
+    </div>
+
+    <!-- Safety Trend Analysis -->
+    <div class="bg-white rounded-xl p-8 shadow-sm mb-12">
+      <h2 class="text-2xl font-semibold mb-6">Safety Trend Analysis</h2>
+      <p class="text-gray-600 mb-6">Incident rates have consistently decreased over the years</p>
+      <div class="h-80">
+        <!-- Line Chart Placeholder -->
+        <canvas id="lineChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Data for transport safety comparison
+    const transportData = [
+      { name: "Car", risk: 7.3 },
+      { name: "Train", risk: 0.15 },
+      { name: "Bus", risk: 0.11 },
+      { name: "Airplane", risk: 0.07 },
+    ];
+
+    // Bar Chart
+    const barCtx = document.getElementById('barChart').getContext('2d');
+    new Chart(barCtx, {
+      type: 'bar',
+      data: {
+        labels: transportData.map(item => item.name),
+        datasets: [{
+          label: 'Risk of Incidents per Billion Passenger Miles',
+          data: transportData.map(item => item.risk),
+          backgroundColor: '#0ea5e9',
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Data for yearly incident trend
+    const yearlyData = [
+      { year: '2018', incidents: 0.28 },
+      { year: '2019', incidents: 0.25 },
+      { year: '2020', incidents: 0.17 },
+      { year: '2021', incidents: 0.15 },
+      { year: '2022', incidents: 0.12 },
+    ];
+
+    // Line Chart
+    const lineCtx = document.getElementById('lineChart').getContext('2d');
+    new Chart(lineCtx, {
+      type: 'line',
+      data: {
+        labels: yearlyData.map(item => item.year),
+        datasets: [{
+          label: 'Incident Rate',
+          data: yearlyData.map(item => item.incidents),
+          borderColor: '#0ea5e9',
+          fill: false,
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
