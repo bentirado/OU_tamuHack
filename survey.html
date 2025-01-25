@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Survey - Zenith</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const questions = [
+        {
+          question: "What's your primary concern about flying?",
+          options: [
+            "Fear of crashes or technical problems",
+            "Anxiety about being in enclosed spaces",
+            "Fear of heights or falling",
+            "Worry about turbulence",
+            "General anxiety and panic attacks",
+          ],
+        },
+        {
+          question: "What's your experience with flying?",
+          options: [
+            "Never flown before",
+            "Flown a few times with significant anxiety",
+            "Regular flyer but always nervous",
+            "Used to fly comfortably but developed fear",
+          ],
+        },
+        {
+          question: "What type of support would you find most helpful?",
+          options: [
+            "Facts and statistics about flight safety",
+            "Relaxation and breathing techniques",
+            "Understanding how planes work",
+            "Hearing from others with similar experiences",
+          ],
+        },
+      ];
+
+      let currentStep = 0;
+      const answers = [];
+
+      const questionElement = document.getElementById('question');
+      const progressBar = document.getElementById('progress');
+      const questionNumber = document.getElementById('question-number');
+      const optionsContainer = document.getElementById('options-container');
+      const completeButton = document.getElementById('complete-button');
+      const backButton = document.getElementById('back-button');
+
+      function renderQuestion() {
+        const question = questions[currentStep];
+        questionElement.innerText = question.question;
+        questionNumber.innerText = `Question ${currentStep + 1} of ${questions.length}`;
+        optionsContainer.innerHTML = '';
+
+        question.options.forEach((option, index) => {
+          const button = document.createElement('button');
+          button.innerText = option;
+          button.className = "w-full text-left px-6 py-4 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-colors";
+          button.onclick = function() {
+            answers[currentStep] = option;
+            if (currentStep < questions.length - 1) {
+              currentStep++;
+              renderQuestion();
+            } else {
+              console.log("Survey completed:", answers);
+              completeButton.disabled = true;
+              completeButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+            }
+            updateProgressBar();
+          };
+          optionsContainer.appendChild(button);
+        });
+
+        updateProgressBar();
+        
+        // Manage back button visibility
+        backButton.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+      }
+
+      function updateProgressBar() {
+        const progressPercentage = ((currentStep + 1) / questions.length) * 100;
+        progressBar.style.width = `${progressPercentage}%`;
+      }
+
+      backButton.addEventListener('click', function() {
+        if (currentStep > 0) {
+          currentStep--;
+          renderQuestion();
+        }
+      });
+
+      // Initialize first question
+      renderQuestion();
+    });
+  </script>
+</head>
+<body class="bg-blue-50">
+
+  <!-- Navigation -->
+  <nav class="w-full bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L4 5v6c0 7 4 10 8 10s8-3 8-10V5l-8-3z"></path>
+          </svg>
+          <span class="ml-2 text-2xl font-semibold text-gray-900">Zenith</span>
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#about" class="text-gray-600 hover:text-blue-500">About</a>
+          <a href="#statistics" class="text-gray-600 hover:text-blue-500">Statistics</a>
+          <a href="#meditation" class="text-gray-600 hover:text-blue-500">Meditation</a>
+          <a href="#safety" class="text-gray-600 hover:text-blue-500">Safety</a>
+        </div>
+        <div class="md:hidden">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 12h18M3 6h18M3 18h18"></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Survey Page -->
+  <div class="min-h-screen bg-blue-50">
+    <div class="max-w-3xl mx-auto px-4 py-12">
+      <div class="bg-white rounded-xl shadow-sm p-8">
+        <div class="mb-8">
+          <div class="h-2 bg-gray-200 rounded-full">
+            <div id="progress" class="h-2 bg-blue-500 rounded-full transition-all duration-300" style="width: 33%"></div>
+          </div>
+          <p id="question-number" class="text-sm text-gray-600 mt-2">Question 1 of 3</p>
+        </div>
+        <div class="mb-8">
+          <h2 id="question" class="text-2xl font-semibold mb-6">What's your primary concern about flying?</h2>
+          <div id="options-container" class="space-y-4">
+            <!-- Options will be dynamically added here -->
+          </div>
+        </div>
+        <div class="flex justify-between items-center">
+          <button id="back-button" class="text-gray-600 hover:text-blue-500">Back</button>
+          <button id="complete-button" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors" disabled>Complete Survey</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
