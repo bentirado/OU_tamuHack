@@ -36,6 +36,22 @@
             "Hearing from others with similar experiences",
           ],
         },
+        {
+          question: "How soon do you plan on flying?",
+          options: [
+            "In the next week",
+            "In the next month",
+            "In the next 6 months",
+            "More than 6 months from now",
+          ]
+        },
+        {
+          question: "Where would you like to travel?",
+          options: [
+            "Domestic destinations (within the country)",
+            "International destinations (abroad)",
+          ],
+        }
       ];
 
       let currentStep = 0;
@@ -47,6 +63,10 @@
       const optionsContainer = document.getElementById('options-container');
       const completeButton = document.getElementById('complete-button');
       const backButton = document.getElementById('back-button');
+      const resultContainer = document.getElementById('result-container');
+      const loadingMessage = document.getElementById('loading-message');
+
+      let selectedButton = null; // Variable to track the selected button
 
       function renderQuestion() {
         const question = questions[currentStep];
@@ -58,18 +78,33 @@
           const button = document.createElement('button');
           button.innerText = option;
           button.className = "w-full text-left px-6 py-4 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-colors";
+          
           button.onclick = function() {
+            // Deselect previously selected button
+            if (selectedButton) {
+              selectedButton.classList.remove("bg-blue-500", "text-white", "border-blue-500");
+            }
+            
+            // Select the current button
+            button.classList.add("bg-blue-500", "text-white", "border-blue-500");
+            selectedButton = button;  // Update the selected button
+
             answers[currentStep] = option;
+
+            // Enable the "Complete Survey" button if it's the last question
+            if (currentStep === questions.length - 1) {
+              completeButton.disabled = false;
+              completeButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+              completeButton.classList.add('bg-blue-500', 'hover:bg-blue-600');
+            }
+
             if (currentStep < questions.length - 1) {
               currentStep++;
               renderQuestion();
-            } else {
-              console.log("Survey completed:", answers);
-              completeButton.disabled = true;
-              completeButton.classList.add('bg-gray-400', 'cursor-not-allowed');
             }
             updateProgressBar();
           };
+
           optionsContainer.appendChild(button);
         });
 
@@ -91,6 +126,27 @@
         }
       });
 
+      // Complete survey functionality
+      completeButton.addEventListener('click', function() {
+        // Hide the survey and show the loading message
+        document.getElementById('survey-container').classList.add('hidden');
+        loadingMessage.classList.remove('hidden');
+
+        // Simulate a delay (e.g., fetching or processing results)
+        setTimeout(function() {
+          // After the delay, hide the loading message and show the results
+          loadingMessage.classList.add('hidden');
+          resultContainer.classList.remove('hidden');
+
+          // Compile answers into a summary (using placeholders for now)
+          document.getElementById('result-concern').innerText = answers[0] || 'Your concern';
+          document.getElementById('result-experience').innerText = answers[1] || 'Your experience';
+          document.getElementById('result-support').innerText = answers[2] || 'Preferred support type';
+          document.getElementById('result-flying').innerText = answers[3] || 'Flying timeline';
+          document.getElementById('result-travel').innerText = answers[4] || 'Preferred travel destinations';
+        }, 1500); // Simulate a 1.5-second delay
+      });
+
       // Initialize first question
       renderQuestion();
     });
@@ -104,7 +160,8 @@
       <div class="flex justify-between items-center h-16">
         <div class="flex items-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2L4 5v6c0 7 4 10 8 10s8-3 8-10V5l-8-3z"></path>
+            <path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25" />
+            <path d="M16 16H7" />
           </svg>
           <span class="ml-2 text-2xl font-semibold text-gray-900">Zenith</span>
         </div>
@@ -124,12 +181,12 @@
   </nav>
 
   <!-- Survey Page -->
-  <div class="min-h-screen bg-blue-50">
+  <div id="survey-container" class="min-h-screen bg-blue-50">
     <div class="max-w-3xl mx-auto px-4 py-12">
       <div class="bg-white rounded-xl shadow-sm p-8">
         <div class="mb-8">
           <div class="h-2 bg-gray-200 rounded-full">
-            <div id="progress" class="h-2 bg-blue-500 rounded-full transition-all duration-300" style="width: 33%"></div>
+            <div id="progress" class="h-2 bg-blue-500 rounded-full transition-all duration-300" style="width: 20%"></div>
           </div>
           <p id="question-number" class="text-sm text-gray-600 mt-2">Question 1 of 3</p>
         </div>
@@ -141,7 +198,30 @@
         </div>
         <div class="flex justify-between items-center">
           <button id="back-button" class="text-gray-600 hover:text-blue-500">Back</button>
-          <button id="complete-button" class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors" disabled>Complete Survey</button>
+          <button id="complete-button" class="bg-gray-400 cursor-not-allowed text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors" disabled>Complete Survey</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Message -->
+  <div id="loading-message" class="hidden min-h-screen bg-blue-50 flex justify-center items-center">
+    <div class="text-xl font-semibold text-gray-600">
+      Loading...
+    </div>
+  </div>
+
+  <!-- Survey Results -->
+  <div id="result-container" class="hidden min-h-screen bg-blue-50">
+    <div class="max-w-3xl mx-auto px-4 py-12">
+      <div class="bg-white rounded-xl shadow-sm p-8">
+        <h2 class="text-2xl font-semibold mb-6">Survey Completed</h2>
+        <div class="space-y-4">
+          <p><strong>Your concern about flying:</strong> <span id="result-concern">Your concern</span></p>
+          <p><strong>Your flying experience:</strong> <span id="result-experience">Your experience</span></p>
+          <p><strong>Your preferred support type:</strong> <span id="result-support">Preferred support type</span></p>
+          <p><strong>Your flying timeline:</strong> <span id="result-flying">Flying timeline</span></p>
+          <p><strong>Your travel destinations:</strong> <span id="result-travel">Travel destinations</span></p>
         </div>
       </div>
     </div>
