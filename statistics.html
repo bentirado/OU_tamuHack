@@ -144,13 +144,34 @@
     }
   });
 
-    // Data for yearly incident trend
-    const yearlyData = [
-      { year: '2018', incidents: 0.28 },
-      { year: '2019', incidents: 0.25 },
-      { year: '2020', incidents: 0.17 },
-      { year: '2021', incidents: 0.15 },
-      { year: '2022', incidents: 0.12 },
+    // Data for yearly death trend
+    const yearlyDataA = [
+  { year: '2012', deaths: 36415 },
+  { year: '2013', deaths: 35369 },
+  { year: '2014', deaths: 35398 },
+  { year: '2015', deaths: 37757 },
+  { year: '2016', deaths: 40327 },
+  { year: '2017', deaths: 40231 },
+  { year: '2018', deaths: 39404 },
+  { year: '2019', deaths: 39107 },
+  { year: '2020', deaths: 42338 },
+  { year: '2021', deaths: 46980 },
+  { year: '2022', deaths: 46027 },
+];
+
+
+    const yearlyDataB = [
+      { year: '2012', deaths: 451 },
+      { year: '2013', deaths: 430 },
+      { year: '2014', deaths: 442 },
+      { year: '2015', deaths: 406 },
+      { year: '2016', deaths: 408 },
+      { year: '2017', deaths: 347 },
+      { year: '2018', deaths: 395 },
+      { year: '2019', deaths: 454 },
+      { year: '2020', deaths: 346 },
+      { year: '2021', deaths: 373 },
+      { year: '2022', deaths: 358 },
     ];
 
     // Line Chart
@@ -158,19 +179,66 @@
     new Chart(lineCtx, {
       type: 'line',
       data: {
-        labels: yearlyData.map(item => item.year),
-        datasets: [{
-          label: 'Incident Rate',
-          data: yearlyData.map(item => item.incidents),
-          borderColor: '#0ea5e9',
-          fill: false,
-        }]
+        labels: yearlyDataA.map(item => item.year), // X-axis labels (years)
+        datasets: [
+          {
+            label: 'Travel Type A Deaths',
+            data: yearlyDataA.map(item => item.deaths),
+            borderColor: '#ef4444',
+            borderWidth: 2,
+            pointBackgroundColor: '#ef4444',
+            tension: 0.3,
+            fill: false,
+          },
+          {
+            label: 'Travel Type B Deaths',
+            data: yearlyDataB.map(item => item.deaths),
+            borderColor: '#3b82f6',
+            borderWidth: 2,
+            pointBackgroundColor: '#3b82f6',
+            tension: 0.3,
+            fill: false,
+          }
+        ]
       },
       options: {
         responsive: true,
+        maintainAspectRatio: false,
         scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Year',
+              color: '#333',
+              font: { size: 14, weight: '500' }
+            }
+          },
           y: {
-            beginAtZero: true
+            title: {
+              display: true,
+              text: 'Number of Deaths',
+              color: '#333',
+              font: { size: 14, weight: '500' }
+            },
+            beginAtZero: true,
+            max: 50000,
+            ticks: {
+              stepSize: 10000,
+              callback: value => value.toLocaleString()
+            }
+          }
+        },
+        plugins: {
+          legend: {
+            display: true,
+            position: 'top'
+          },
+          tooltip: {
+            callbacks: {
+              label: function(tooltipItem) {
+                return `${tooltipItem.dataset.label}: ${tooltipItem.raw.toLocaleString()} deaths`;
+              }
+            }
           }
         }
       }
