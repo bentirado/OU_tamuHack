@@ -138,6 +138,30 @@
     </div>
   </div>
 </footer>
+<!-- Cookie Consent Popup -->
+<div id="cookie-consent" class="fixed bottom-0 left-0 w-full bg-blue-500 text-white py-4 px-6 flex justify-between items-center shadow-lg">
+  <div>
+    <p class="text-sm">We use cookies to improve your experience. By using our site, you accept our <a href="#" class="underline">Privacy Policy</a>.</p>
+  </div>
+  <button id="accept-cookies" class="bg-blue-700 text-white py-2 px-4 rounded-lg text-sm hover:bg-blue-800">
+    Accept Cookies
+  </button>
+</div>
 
 </body>
+<script>
+  // Check if the user has already accepted cookies
+  if (!localStorage.getItem('cookiesAccepted')) {
+    document.getElementById('cookie-consent').style.display = 'flex';
+  }
+
+  // When the user clicks "Accept Cookies"
+  document.getElementById('accept-cookies').addEventListener('click', function() {
+    // Hide the popup
+    document.getElementById('cookie-consent').style.display = 'none';
+    // Store the acceptance in localStorage so it is remembered
+    localStorage.setItem('cookiesAccepted', 'true');
+  });
+</script>
+
 </html>
