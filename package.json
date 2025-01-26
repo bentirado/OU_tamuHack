@@ -1,16 +1,63 @@
 {
-  "name": "tamuhack",
+  "name": "zenith",
   "version": "1.0.0",
-  "description": "Project created for tamuHack.",
+  "description": "Afraid of flying? Find your 'zen' with Zenith.",
   "main": "main.js",
   "scripts": {
-        "start": "cross-env NODE_ENV=development electron ."
+    "start": "electron .",
+    "build": "electron-builder"
   },
-  "author": "Ben Tirado, Parker Hix, Javid Pena",
-  "license": "ISC",
+  "author": {
+    "name": "Parker, Ben, Javid",
+    "email": "parker.e.hix-1@ou.edu"
+  },
+  "license": "MIT",
   "devDependencies": {
-    "cross-env": "^7.0.3",
-    "electron": "^34.0.1",
-    "electron-reloader": "^1.2.3"
+    "electron": "^25.0.0",
+    "electron-builder": "^24.5.0"
+  },
+  "build": {
+    "appId": "com.tamuHack.zenith",
+    "productName": "Zenith",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "./about.html",
+      "./safety.html",
+      "./package.json",
+      "./statistics.html",
+      "./main.js",
+      "./index.html",
+      "./survey.html",
+      "./preload.js",
+      "./meditation.html",
+      "./README.md",
+      "./package-lock.json",
+      "!node_modules/**/*",
+      "node_modules/**/*"
+    ],
+    "extraResources": [
+      "assets/**/*"
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "assets/icons/win-icon.ico"
+    },
+    "mac": {
+      "target": ["dmg"],
+      "icon": "assets/icons/mac-icon.icns"
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "icon": "assets/icons/linux-icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "assets/icons/win-installer-icon.ico",
+      "uninstallerIcon": "assets/icons/win-uninstaller-icon.ico",
+      "deleteAppDataOnUninstall": true
+    }
   }
 }
