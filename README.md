@@ -45,7 +45,7 @@ To get started with the project, follow the steps below:
 
 ### Technologies Used
 - **Frontend** *(HTML, CSS, Javascript)*
-- **Tools** *(Electron)*
+- **Tools** *(Electron, Git)*
 
 ## Contributors
 
