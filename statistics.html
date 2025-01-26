@@ -89,6 +89,10 @@
         <canvas id="lineChart"></canvas>
       </div>
     </div>
+    <p>[1] National Safety Council, "Historical car crash deaths and rates," *Injury Facts*. [Online]. Available: https://injuryfacts.nsc.org/motor-vehicle/historical-fatality-trends/deaths-and-rates/. [Accessed: Jan. 25, 2025].
+    </p>
+    <p>[2] National Transportation Safety Board, "US Civil Aviation Accident Dashboard: 2008-2022," *National Transportation Safety Board*. [Online]. Available: https://www.ntsb.gov/safety/StatisticalReviews/Pages/CivilAviationDashboard.aspx. [Accessed: Jan. 25, 2025].
+    </p>
   </div>
 
   <script>
@@ -105,7 +109,7 @@
   const chart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Cars', 'Airplanes'], // Categories
+      labels: ['Cars¹', 'Airplanes²'], // Categories
       datasets: [
         {
           label: 'Fatalities in 2022',
