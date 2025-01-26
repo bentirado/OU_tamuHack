@@ -37,7 +37,7 @@
   <div class="bg-gradient-to-b from-blue-50 to-white py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center">
-        <h1 class="text-4xl font-bold text-gray-900 mb-4">Understanding Flight Safety</h1>
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">Flight Safety Statistics</h1>
         <p class="text-xl text-gray-600 max-w-2xl mx-auto">
           Facts and figures that demonstrate why air travel is one of the safest forms of transportation.
         </p>
@@ -48,8 +48,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
     <!-- Transport Safety Comparison -->
     <div class="bg-white rounded-xl p-8 shadow-sm mb-8">
-      <h2 class="text-2xl font-semibold mb-6">Transport Safety Comparison</h2>
-      <p class="text-gray-600 mb-6">Risk of incidents per billion passenger miles</p>
+      <h2 class="text-2xl font-semibold mb-6">Car Fatalities Compared to Airplane Fatalities</h2>
       <div class="h-80">
         <!-- Bar Chart Placeholder -->
         <canvas id="barChart"></canvas>
@@ -60,24 +59,24 @@
     <div class="grid md:grid-cols-3 gap-8 mb-12">
       <div class="bg-white rounded-xl p-6 shadow-sm text-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 4v16M4 12h16" />
+        </svg>
+        <div class="text-3xl font-bold text-gray-900 mb-2">22,500,000+</div>
+        <div class="text-gray-600">Hours of Flights</div>
+      </div>
+      <div class="bg-white rounded-xl p-6 shadow-sm text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M16 4v4h4M4 12v4h4m0-2h8v-2H8z" />
         </svg>
-        <div class="text-3xl font-bold text-gray-900 mb-2">99.999%</div>
-        <div class="text-gray-600">Commercial Aviation Safety Rate</div>
+        <div class="text-3xl font-bold text-gray-900 mb-2">5.34%</div>
+        <div class="text-gray-600">Accident Rate per 100k Hours</div>
       </div>
       <div class="bg-white rounded-xl p-6 shadow-sm text-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 4v16M4 12h16" />
         </svg>
-        <div class="text-3xl font-bold text-gray-900 mb-2">96,000+</div>
-        <div class="text-gray-600">Flights Operating Daily Worldwide</div>
-      </div>
-      <div class="bg-white rounded-xl p-6 shadow-sm text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 4v16M4 12h16" />
-        </svg>
-        <div class="text-3xl font-bold text-gray-900 mb-2">4.5B+</div>
-        <div class="text-gray-600">Passengers Fly Safely Each Year</div>
+        <div class="text-3xl font-bold text-gray-900 mb-2">0.95%</div>
+        <div class="text-gray-600">Fatal Accident Rate per 100k Hours</div>
       </div>
     </div>
 
@@ -94,34 +93,51 @@
 
   <script>
     // Data for transport safety comparison
-    const transportData = [
-      { name: "Car", risk: 7.3 },
-      { name: "Train", risk: 0.15 },
-      { name: "Bus", risk: 0.11 },
-      { name: "Airplane", risk: 0.07 },
-    ];
+    const fatalitiesData = {
+    cars: 46027, // Example: Total car fatalities in 2022
+    airplanes: 358 // Example: Total airplane fatalities in 2022
+  };
 
-    // Bar Chart
-    const barCtx = document.getElementById('barChart').getContext('2d');
-    new Chart(barCtx, {
-      type: 'bar',
-      data: {
-        labels: transportData.map(item => item.name),
-        datasets: [{
-          label: 'Risk of Incidents per Billion Passenger Miles',
-          data: transportData.map(item => item.risk),
-          backgroundColor: '#0ea5e9',
-        }]
+  // Get the context of the canvas element
+  const ctx = document.getElementById('barChart').getContext('2d');
+
+  // Create the bar chart
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Cars', 'Airplanes'], // Categories
+      datasets: [
+        {
+          label: 'Fatalities in 2022',
+          data: [fatalitiesData.cars, fatalitiesData.airplanes],
+          backgroundColor: ['#4caf50', '#ff5722'], // Colors for bars
+          borderColor: ['#388e3c', '#d32f2f'], // Border colors
+          borderWidth: 1
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false // Hide legend since it's a simple chart
+        },
+        title: {
+          display: true,
+          text: 'Total Fatalities in 2022: Cars vs Airplanes'
+        }
       },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Number of Fatalities'
           }
         }
       }
-    });
+    }
+  });
 
     // Data for yearly incident trend
     const yearlyData = [
