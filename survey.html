@@ -315,28 +315,55 @@
   </div>
 
   <!-- Survey Results -->
-  <div id="result-container" class="hidden min-h-screen bg-blue-50">
-    <div class="max-w-3xl mx-auto px-4 py-12">
-      <div class="bg-white rounded-xl shadow-sm p-8">
-        <h2 class="text-2xl font-semibold mb-6">Survey Completed</h2>
-        <div class="space-y-4">
-          <p><strong>Your concern about flying:</strong> <span id="result-concern">Your concern</span></p>
-          <p><strong>Your flying experience:</strong> <span id="result-experience">Your experience</span></p>
-          <p><strong>Your preferred support type:</strong> <span id="result-support">Preferred support type</span></p>
-          <p><strong>Your flying timeline:</strong> <span id="result-flying">Flying timeline</span></p>
-          <p><strong>Your travel destinations:</strong> <span id="result-travel">Travel destinations</span></p>
+  <div id="result-container" class="hidden min-h-screen bg-blue-50 flex items-center justify-center">
+    <div class="max-w-3xl mx-auto px-6 py-12">
+      <div class="bg-white rounded-2xl shadow-lg p-10">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Survey Completed</h2>
+        <p class="text-lg text-gray-600 text-center mb-6">Here’s a summary of your responses and personalized
+          recommendations:</p>
+
+        <!-- Result Summary -->
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">Your Concern About Flying:</h3>
+            <p class="text-gray-600 mt-1"><span id="result-concern">Your concern</span></p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">Your Flying Experience:</h3>
+            <p class="text-gray-600 mt-1"><span id="result-experience">Your experience</span></p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">Your Preferred Support Type:</h3>
+            <p class="text-gray-600 mt-1"><span id="result-support">Preferred support type</span></p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">Your Flying Timeline:</h3>
+            <p class="text-gray-600 mt-1"><span id="result-flying">Flying timeline</span></p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">Your Travel Destinations:</h3>
+            <p class="text-gray-600 mt-1"><span id="result-travel">Travel destinations</span></p>
+          </div>
         </div>
 
-        <!-- Button at the bottom of the results -->
-        <div class="mt-8 text-center">
+        <!-- Recommendation Box -->
+        <div class="mt-8 p-6 bg-blue-100 rounded-lg">
+          <h3 class="text-xl font-bold text-blue-600 mb-2">Our Recommendation:</h3>
+          <p class="text-gray-700">Based on your results, we suggest exploring the following resources to help address
+            your concerns and make your next flight more comfortable:</p>
+        </div>
+
+        <!-- Call-to-Action Button -->
+        <div class="mt-10 text-center">
           <a id="next-page-button" href="/next-page"
-            class="inline-block px-6 py-3 text-white bg-blue-600 rounded-xl hover:bg-blue-700 transition duration-300">
-            Go to ext Page
+            class="inline-block px-8 py-3 text-lg text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+            Continue to Personalized Resources
           </a>
         </div>
       </div>
     </div>
   </div>
+
 
 
 </body>
