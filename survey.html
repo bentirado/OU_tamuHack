@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,51 +8,75 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      // Define all option strings in a single dictionary
+      const optionEnums = {
+        FEAR_CRASHES: "Fear of crashes or technical problems",
+        ANXIETY_SPACES: "Anxiety about being in enclosed spaces",
+        FEAR_HEIGHTS: "Fear of heights or falling",
+        WORRY_TURBULENCE: "Worry about turbulence",
+        GENERAL_ANXIETY: "General anxiety and panic attacks",
+        NEVER_FLOWN: "Never flown before",
+        ANXIOUS_FEW_TIMES: "Flown a few times with significant anxiety",
+        NERVOUS_REGULAR: "Regular flyer but always nervous",
+        USED_TO_FLY: "Used to fly comfortably but developed fear",
+        FLIGHT_SAFETY_STATS: "Facts and statistics about flight safety",
+        RELAXATION_TECHNIQUES: "Relaxation and breathing techniques",
+        UNDERSTAND_PLANES: "Understanding how planes work",
+        HEARING_OTHERS: "Hearing from others with similar experiences",
+        NEXT_WEEK: "In the next week",
+        NEXT_MONTH: "In the next month",
+        NEXT_6_MONTHS: "In the next 6 months",
+        MORE_THAN_6_MONTHS: "More than 6 months from now",
+        DOMESTIC: "Domestic destinations (within the country)",
+        INTERNATIONAL: "International destinations (abroad)",
+      };
+
+      // Questions referencing the optionEnums dictionary
       const questions = [
         {
           question: "What's your primary concern about flying?",
           options: [
-            "Fear of crashes or technical problems",
-            "Anxiety about being in enclosed spaces",
-            "Fear of heights or falling",
-            "Worry about turbulence",
-            "General anxiety and panic attacks",
+            optionEnums.FEAR_CRASHES,
+            optionEnums.ANXIETY_SPACES,
+            optionEnums.FEAR_HEIGHTS,
+            optionEnums.WORRY_TURBULENCE,
+            optionEnums.GENERAL_ANXIETY,
           ],
         },
         {
           question: "What's your experience with flying?",
           options: [
-            "Never flown before",
-            "Flown a few times with significant anxiety",
-            "Regular flyer but always nervous",
-            "Used to fly comfortably but developed fear",
+            optionEnums.NEVER_FLOWN,
+            optionEnums.ANXIOUS_FEW_TIMES,
+            optionEnums.NERVOUS_REGULAR,
+            optionEnums.USED_TO_FLY,
           ],
         },
         {
           question: "What type of support would you find most helpful?",
           options: [
-            "Facts and statistics about flight safety",
-            "Relaxation and breathing techniques",
-            "Understanding how planes work",
-            "Hearing from others with similar experiences",
+            optionEnums.FLIGHT_SAFETY_STATS,
+            optionEnums.RELAXATION_TECHNIQUES,
+            optionEnums.UNDERSTAND_PLANES,
+            optionEnums.HEARING_OTHERS,
           ],
         },
         {
           question: "How soon do you plan on flying?",
           options: [
-            "In the next week",
-            "In the next month",
-            "In the next 6 months",
-            "More than 6 months from now",
-          ]
+            optionEnums.NEXT_WEEK,
+            optionEnums.NEXT_MONTH,
+            optionEnums.NEXT_6_MONTHS,
+            optionEnums.MORE_THAN_6_MONTHS,
+          ],
         },
         {
           question: "Where would you like to travel?",
           options: [
-            "Domestic destinations (within the country)",
-            "International destinations (abroad)",
+            optionEnums.DOMESTIC,
+            optionEnums.INTERNATIONAL,
           ],
-        }
+        },
       ];
 
       let currentStep = 0;
@@ -68,6 +93,69 @@
 
       let selectedButton = null; // Variable to track the selected button
 
+      let statisticsBucket = [optionEnums.FEAR_CRASHES, optionEnums.FLIGHT_SAFETY_STATS, optionEnums.HEARING_OTHERS];
+      let meditationBucket = [optionEnums.ANXIETY_SPACES,
+      optionEnums.FEAR_HEIGHTS, optionEnums.GENERAL_ANXIETY, optionEnums.RELAXATION_TECHNIQUES];
+      let safetyBucket = [optionEnums.FEAR_CRASHES, optionEnums.UNDERSTAND_PLANES, optionEnums.WORRY_TURBULENCE];
+
+      function determineBucket(answers, statisticsBucket, meditationBucket, safetyBucket) {
+        // Define scores for each bucket
+        const scores = {
+          statisticsBucket: 0,
+          meditationBucket: 0,
+          safetyBucket: 0,
+        };
+
+        // Define each bucket's options (array of possible answers)
+        const buckets = {
+          statisticsBucket: statisticsBucket,
+          meditationBucket: meditationBucket,
+          safetyBucket: safetyBucket,
+        };
+
+        // Loop through each answer and check which bucket it belongs to
+        answers.forEach(answer => {
+          for (const bucket in scores) {
+            if (buckets[bucket].some(option => option === answer)) {
+              scores[bucket] += 1;
+            }
+          }
+        });
+
+        // Find the bucket with the maximum score
+        const bucketWithMaxValue = Object.keys(scores).reduce((maxBucket, bucket) =>
+          scores[bucket] > scores[maxBucket] ? bucket : maxBucket
+        );
+
+        return buckets[bucketWithMaxValue];
+      }
+
+      // Function to update the button dynamically
+      function updateButton(result) {
+        const button = document.getElementById("next-page-button");
+
+        // Get the new text and href based on the result of the function
+        const { text, href } = determineNextPage(result);
+
+        // Set the new button text and href
+        button.textContent = text;
+        button.href = href;
+      }
+
+
+      // Example function that returns the page based on a condition
+      function determineNextPage(result) {
+        if (result === statisticsBucket) {
+          return { text: "Go to Statistics Page", href: "./statistics.html" };
+        } else if (result === meditationBucket) {
+          return { text: "Go to Meditation Page", href: "./meditation.html" };
+        } else if (result === safetyBucket) {
+          return { text: "Go to Safety Page", href: "./safety.html" };
+        } else {
+          return { text: "Go to Default Page", href: "./about.html" };
+        }
+      }
+
       function renderQuestion() {
         const question = questions[currentStep];
         questionElement.innerText = question.question;
@@ -78,13 +166,13 @@
           const button = document.createElement('button');
           button.innerText = option;
           button.className = "w-full text-left px-6 py-4 rounded-lg border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-colors";
-          
-          button.onclick = function() {
+
+          button.onclick = function () {
             // Deselect previously selected button
             if (selectedButton) {
               selectedButton.classList.remove("bg-blue-500", "text-white", "border-blue-500");
             }
-            
+
             // Select the current button
             button.classList.add("bg-blue-500", "text-white", "border-blue-500");
             selectedButton = button;  // Update the selected button
@@ -109,7 +197,7 @@
         });
 
         updateProgressBar();
-        
+
         // Manage back button visibility
         backButton.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
       }
@@ -119,7 +207,7 @@
         progressBar.style.width = `${progressPercentage}%`;
       }
 
-      backButton.addEventListener('click', function() {
+      backButton.addEventListener('click', function () {
         if (currentStep > 0) {
           currentStep--;
           renderQuestion();
@@ -127,13 +215,13 @@
       });
 
       // Complete survey functionality
-      completeButton.addEventListener('click', function() {
+      completeButton.addEventListener('click', function () {
         // Hide the survey and show the loading message
         document.getElementById('survey-container').classList.add('hidden');
         loadingMessage.classList.remove('hidden');
 
         // Simulate a delay (e.g., fetching or processing results)
-        setTimeout(function() {
+        setTimeout(function () {
           // After the delay, hide the loading message and show the results
           loadingMessage.classList.add('hidden');
           resultContainer.classList.remove('hidden');
@@ -144,6 +232,11 @@
           document.getElementById('result-support').innerText = answers[2] || 'Preferred support type';
           document.getElementById('result-flying').innerText = answers[3] || 'Flying timeline';
           document.getElementById('result-travel').innerText = answers[4] || 'Preferred travel destinations';
+
+
+          // print resulsts to console
+          const surveyResult = determineBucket(answers, statisticsBucket, meditationBucket, safetyBucket)
+          updateButton(surveyResult);
         }, 1500); // Simulate a 1.5-second delay
       });
 
@@ -152,6 +245,7 @@
     });
   </script>
 </head>
+
 <body class="bg-blue-50">
 
   <!-- Navigation -->
@@ -160,7 +254,8 @@
       <div class="flex justify-between items-center h-16">
         <div class="flex items-center">
           <a href="index.html">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 17.58A5 5 0 0018 8h-1.26A8 8 0 104 16.25" />
               <path d="M16 16H7" />
             </svg>
@@ -168,15 +263,16 @@
           <a href="index.html" class="ml-2 text-2xl font-semibold text-gray-900">
             Zenith
           </a>
-          </div>
+        </div>
         <div class="hidden md:flex items-center space-x-8">
           <a href="about.html" class="text-gray-600 hover:text-blue-500">About</a>
           <a href="statistics.html" class="text-gray-600 hover:text-blue-500">Statistics</a>
           <a href="meditation.html" class="text-gray-600 hover:text-blue-500">Meditation</a>
-          <a href="#safety" class="text-gray-600 hover:text-blue-500">Safety</a>
+          <a href="safety.html" class="text-gray-600 hover:text-blue-500">Safety</a>
         </div>
         <div class="md:hidden">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 12h18M3 6h18M3 18h18"></path>
           </svg>
         </div>
@@ -190,7 +286,8 @@
       <div class="bg-white rounded-xl shadow-sm p-8">
         <div class="mb-8">
           <div class="h-2 bg-gray-200 rounded-full">
-            <div id="progress" class="h-2 bg-blue-500 rounded-full transition-all duration-300" style="width: 20%"></div>
+            <div id="progress" class="h-2 bg-blue-500 rounded-full transition-all duration-300" style="width: 20%">
+            </div>
           </div>
           <p id="question-number" class="text-sm text-gray-600 mt-2">Question 1 of 3</p>
         </div>
@@ -202,7 +299,9 @@
         </div>
         <div class="flex justify-between items-center">
           <button id="back-button" class="text-gray-600 hover:text-blue-500">Back</button>
-          <button id="complete-button" class="bg-gray-400 cursor-not-allowed text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors" disabled>Complete Survey</button>
+          <button id="complete-button"
+            class="bg-gray-400 cursor-not-allowed text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            disabled>Complete Survey</button>
         </div>
       </div>
     </div>
@@ -216,20 +315,66 @@
   </div>
 
   <!-- Survey Results -->
-  <div id="result-container" class="hidden min-h-screen bg-blue-50">
-    <div class="max-w-3xl mx-auto px-4 py-12">
-      <div class="bg-white rounded-xl shadow-sm p-8">
-        <h2 class="text-2xl font-semibold mb-6">Survey Completed</h2>
-        <div class="space-y-4">
-          <p><strong>Your concern about flying:</strong> <span id="result-concern">Your concern</span></p>
-          <p><strong>Your flying experience:</strong> <span id="result-experience">Your experience</span></p>
-          <p><strong>Your preferred support type:</strong> <span id="result-support">Preferred support type</span></p>
-          <p><strong>Your flying timeline:</strong> <span id="result-flying">Flying timeline</span></p>
-          <p><strong>Your travel destinations:</strong> <span id="result-travel">Travel destinations</span></p>
+  <div id="result-container" class="hidden min-h-screen bg-blue-50 flex items-center justify-center">
+    <div class="max-w-3xl mx-auto px-6 py-12">
+      <div class="bg-white rounded-2xl shadow-lg p-10">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Survey Completed</h2>
+        <p class="text-lg text-gray-600 text-center mb-6">Here’s a summary of your responses and personalized
+          recommendations:</p>
+
+        <!-- Result Summary -->
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">Your Concern About Flying:</h3>
+            <p class="text-gray-600 mt-1"><span id="result-concern">Your concern</span></p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">Your Flying Experience:</h3>
+            <p class="text-gray-600 mt-1"><span id="result-experience">Your experience</span></p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">Your Preferred Support Type:</h3>
+            <p class="text-gray-600 mt-1"><span id="result-support">Preferred support type</span></p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">Your Flying Timeline:</h3>
+            <p class="text-gray-600 mt-1"><span id="result-flying">Flying timeline</span></p>
+          </div>
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800">Your Travel Destinations:</h3>
+            <p class="text-gray-600 mt-1"><span id="result-travel">Travel destinations</span></p>
+          </div>
+        </div>
+
+        <!-- Recommendation Box -->
+        <div class="mt-8 p-6 bg-blue-100 rounded-lg">
+          <h3 class="text-xl font-bold text-blue-600 mb-2">Our Recommendation:</h3>
+          <p class="text-gray-700">Based on your results, we suggest exploring the following resources to help address
+            your concerns and make your next flight more comfortable:</p>
+        </div>
+
+        <!-- Call-to-Action Button -->
+        <div class="mt-10 text-center">
+          <a id="next-page-button" href="/next-page"
+            class="inline-block px-8 py-3 text-lg text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+            Continue to Personalized Resources
+          </a>
         </div>
       </div>
     </div>
   </div>
+<!-- Footer -->
+<footer class="bg-blue-500 text-white py-6 mt-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <p class="text-sm mb-2">© 2025 Zenith. All rights reserved.</p>
+    <div class="flex justify-center space-x-8">
+      <a href="#" class="text-white hover:text-gray-200">Privacy Policy</a>
+      <a href="#" class="text-white hover:text-gray-200">Terms of Service</a>
+    </div>
+  </div>
+</footer>
+
 
 </body>
+
 </html>
