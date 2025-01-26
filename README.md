@@ -1,5 +1,3 @@
-Here is the updated **README** with the **Wine** installation section removed and a note about its necessity for building Windows apps on Linux.
-
 ---
 
 # OU_tamuHack
