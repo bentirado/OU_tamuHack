@@ -59,22 +59,41 @@
     <div class="grid md:grid-cols-3 gap-8 mb-12">
       <div class="bg-white rounded-xl p-6 shadow-sm text-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 4v16M4 12h16" />
+          <!-- Clock Face -->
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" />
+          
+          <!-- Hour Hand -->
+          <line x1="12" y1="12" x2="12" y2="6" stroke="currentColor" stroke-width="2" />
+          
+          <!-- Minute Hand -->
+          <line x1="12" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" />
+          
+          <!-- Clock Center -->
+          <circle cx="12" cy="12" r="1" fill="currentColor" />
         </svg>
+        
         <div class="text-3xl font-bold text-gray-900 mb-2">22,500,000+</div>
         <div class="text-gray-600">Hours of Flights</div>
       </div>
       <div class="bg-white rounded-xl p-6 shadow-sm text-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M16 4v4h4M4 12v4h4m0-2h8v-2H8z" />
+          <!-- Exclamation Point -->
+          <line x1="12" y1="3" x2="12" y2="15" stroke="currentColor" stroke-width="2" />
+          <circle cx="12" cy="18" r="1" fill="currentColor" />
         </svg>
+        
         <div class="text-3xl font-bold text-gray-900 mb-2">5.34%</div>
         <div class="text-gray-600">Accident Rate per 100k Hours</div>
       </div>
       <div class="bg-white rounded-xl p-6 shadow-sm text-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500 mx-auto mb-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 4v16M4 12h16" />
+          <!-- Circle -->
+          <circle cx="12" cy="12" r="10" stroke="currentColor" fill="none" stroke-width="2" />
+          
+          <!-- Diagonal Line Crossing Through Circle -->
+          <line x1="4" y1="4" x2="20" y2="20" stroke="currentColor" stroke-width="2" />
         </svg>
+        
         <div class="text-3xl font-bold text-gray-900 mb-2">0.95%</div>
         <div class="text-gray-600">Fatal Accident Rate per 100k Hours</div>
       </div>
