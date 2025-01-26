@@ -1,6 +1,6 @@
 # OU_tamuHack
 
-This repository contains the project created by **Benjamin Tirado**, **Parker Hix**, and **Javid Pena** during the **tamuHack Hackathon**. The project was developed with the goal of solving a problem for American Airlines. 
+This repository contains the project created by **Benjamin Tirado**, **Parker Hix**, and **Javid Peña** during the **tamuHack Hackathon**. The project was developed with the goal of solving a problem for American Airlines. 
 
 ---
 
@@ -55,5 +55,5 @@ To get started with the project, follow the steps below:
 - **Parker Hix**  
   *Role:* (Survey Analyst)
 
-- **Javid Pena**  
+- **Javid Peña**  
   *Role:* (Data Coordinator)
